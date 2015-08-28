@@ -152,4 +152,44 @@ describe RuboCop::Cop::Style::Lambda do
       expect(cop.offenses.map(&:corrected?)).to eq [false]
     end
   end
+
+  context 'lambda is used in default value' do
+    before do
+      inspect_source(cop, source)
+    end
+
+    shared_examples 'registering offences' do
+      it { expect(cop.offenses.size).to eq 1 }
+    end
+
+    context 'in method argument' do
+      let(:source) do
+        ['def forr(bar = lambda { |x| x + 1 })',
+         '  bar.(1)',
+         'end']
+      end
+
+      it_should_behave_like 'registering offences'
+    end
+
+    context 'in method keyword argument' do
+      let(:source) do
+        ['def foo(bar: lambda { |x| x + 1 })',
+         '  bar.(1)',
+         'end']
+      end
+
+      it_should_behave_like 'registering offences'
+    end
+
+    context 'in block argument' do
+      let(:source) do
+        ['define_method(:foo) do |bar: lambda { |x| x }|',
+         '  bar.(1)',
+         'end']
+      end
+
+      it_should_behave_like 'registering offences'
+    end
+  end
 end

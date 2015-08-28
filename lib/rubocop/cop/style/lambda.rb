@@ -33,6 +33,20 @@ module RuboCop
           end
         end
 
+        def on_def(node)
+          block_method, args, = *node
+
+          return unless block_method == TARGET
+          selector = block_method.loc.selector.source
+          length = lambda_length(node)
+
+          if selector != '->' && length == 1
+            add_offense_for_single_line(node, block_method.loc.expression, args)
+          elsif selector == '->' && length > 1
+            add_offense(node, block_method.loc.expression, MULTI_MSG)
+          end
+        end
+
         private
 
         def add_offense_for_single_line(block_node, location, args)

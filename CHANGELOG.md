@@ -42,6 +42,8 @@
 * [#2155](https://github.com/bbatsov/rubocop/issues/2155): Configuration `EndAlignment: AlignWith: variable` only applies when the operands of `=` are on the same line. ([@jonas054][])
 * Fix bug in `Style/IndentationWidth` when `rescue` or `ensure` is preceded by an empty body. ([@lumeet][])
 * [#2183](https://github.com/bbatsov/rubocop/issues/2183): Fix bug in `Style/BlockDelimiters` when auto-correcting adjacent braces. ([@lumeet][])
+* `Style/Lamba` now handles default values in methods and blocks
+  ([@eitoball][])
 
 ## 0.33.0 (05/08/2015)
 
